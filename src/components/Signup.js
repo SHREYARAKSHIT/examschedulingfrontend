@@ -15,10 +15,11 @@ export default function Signup() {
     e.preventDefault();
     try {
       const response = await axios.post("http://127.0.0.1:5000/api/auth/signup", formData);
-      toast.success(response.data.message);
+      toast.success('Signup successful!');
       navigate("/login");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Signup failed");
+      console.error(error.response?.data?.message || "Signup failed");
+      alert('Signup failed!');
     }
   };
 

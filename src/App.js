@@ -9,29 +9,34 @@ import axios from "axios";
 import UploadFiles from "./components/UploadFiles";
 import ScheduleView from "./components/ScheduleView";
 import HomePage from "./components/HomePage";  // Import HomePage component
+import Header from "./components/Header";
+import Sidebar from "./components/Sidebar";
+import Footer from "./components/Footer";
+import HallView from "./components/HallView";
+import logoutUser from "./components/logout";
+import { useNavigate } from "react-router-dom";
+
+
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await axios.get("/api/auth/check", { withCredentials: true });
-        setIsAuthenticated(response.data.authenticated);
-      } catch (error) {
-        setIsAuthenticated(false);
-      }
-    };
-    checkAuth();
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      setIsAuthenticated(true);
+      // Optionally, verify token validity with backend
+    }
   }, []);
 
+/*
   return (
     <Router>
       <Toaster position="top-right" />
       <Routes>
-        <Route path="/" element={<HomePage />} /> {/* Home page route */}
+        <Route path="/" element={<HomePage />} /> {/* Home page route }
         <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
-        <Route path="/signup" element={<Signup />} />  {/* Signup route */}
+        <Route path="/signup" element={<Signup />} />  {/* Signup route }
         
         <Route
           path="/dashboard"
@@ -60,6 +65,78 @@ export default function App() {
         
         <Route path="*" element={<Navigate to={isAuthenticated ? "/dashboard" : "/"} />} />
       </Routes>
+    </Router>
+  );*/
+
+  return (
+    <Router>
+      <Toaster position="top-right" />
+      
+      {isAuthenticated ? (
+
+      <div className="flex flex-col min-h-screen">
+        {/* Header */}
+        <Header isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated}/>
+        <div className="flex flex-1">
+          {/* Sidebar */}
+          <Sidebar />
+          
+          <div className="flex-1 p-6">
+            <Routes>
+              
+              
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute isAuthenticated={isAuthenticated}>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/upload"
+                element={
+                  <ProtectedRoute isAuthenticated={isAuthenticated}>
+                    <UploadFiles />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/schedule"
+                element={
+                  <ProtectedRoute isAuthenticated={isAuthenticated}>
+                    <ScheduleView />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/hall"
+                element={
+                  <ProtectedRoute isAuthenticated={isAuthenticated}>
+                    <HallView />
+                  </ProtectedRoute>
+                }
+              />
+              
+              <Route path="*" element={<Navigate to={isAuthenticated ? "/dashboard" : "/"} />} />
+            </Routes>
+          </div>
+        </div>
+        
+        {/* Footer */}
+        <Footer />
+      </div>
+      ) : (
+        <div className="h-screen flex items-center justify-center">
+          {/* Show Login or Signup before login */}
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="*" element={<Navigate to="/login" />} />
+          </Routes>
+        </div>
+      )}
     </Router>
   );
 }

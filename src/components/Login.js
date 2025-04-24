@@ -13,15 +13,22 @@ export default function Login({ setIsAuthenticated }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const response = await axios.post("http://127.0.0.1:5000/api/auth/login", formData);
-      toast.success(response.data.message);
+      const response = await axios.post("http://localhost:5000/api/auth/login", formData);
+      const { access_token } = response.data;
+  
+      // Save JWT in localStorage or sessionStorage
+      localStorage.setItem('access_token', access_token);
+      toast.success('Login successful!');
       setIsAuthenticated(true);
       navigate("/dashboard");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Login failed");
+      console.error(error.response?.data?.message || "Login failed");
+      alert('Login failed!');
     }
   };
+
 
   return (
     <div className="flex items-center justify-center min-h-screen">
