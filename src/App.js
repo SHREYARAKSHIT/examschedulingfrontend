@@ -127,7 +127,8 @@ export default function App() {
         <Footer />
       </div>
       ) : (
-        <div className="h-screen flex items-center justify-center">
+        <div className="h-screen bg-gradient-to-r from-indigo-100 via-indigo-200 to-indigo-300">
+      <div className="h-full flex items-center justify-center">
           {/* Show Login or Signup before login */}
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -135,6 +136,7 @@ export default function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
+        </div>
         </div>
       )}
     </Router>
