@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 export default function Login({ setIsAuthenticated }) {
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -37,6 +38,12 @@ export default function Login({ setIsAuthenticated }) {
         <input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleChange} required className="block border p-2 w-full mb-3"/>
         <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required className="block border p-2 w-full mb-3"/>
         <button type="submit" className="bg-blue-500 text-white p-2 rounded w-full">Login</button>
+        <p className="text-sm text-center mt-4 text-gray-600">
+          Don’t have an account?{' '}
+          <Link to="/signup" className="text-blue-600 hover:underline font-medium">
+            Sign up
+          </Link>
+        </p>
       </form>
     </div>
   );

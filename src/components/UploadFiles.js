@@ -206,13 +206,13 @@ const UploadFiles = () => {
   );
 };
 
-export default UploadFiles;*/
+export default UploadFiles;
 
 return (
   <div className="max-w-4xl mx-auto p-6">
     <div className="flex justify-between mb-6">
       <Link to="/dashboard" className="text-blue-600 hover:underline">← Back to Dashboard</Link>
-      {/* <button onClick={() => logoutUser(navigate)} className="text-red-500 hover:underline">Logout</button> */}
+      {/* <button onClick={() => logoutUser(navigate)} className="text-red-500 hover:underline">Logout</button> }
     </div>
 
     <h2 className="text-2xl font-semibold text-center mb-6">Upload Exam Data</h2>
@@ -280,6 +280,185 @@ return (
         <div className="space-x-4">
           <Button variant="outlined" onClick={() => handleDownloadSchedule("csv", "hall_accommodation")}>Download CSV</Button>
           <Button variant="outlined" onClick={() => handleDownloadSchedule("pdf", "hall_accommodation")}>Download PDF</Button>
+        </div>
+      </div>
+    )}
+  </div>
+);
+};
+
+export default UploadFiles;*/
+return (
+  <div className="max-w-4xl mx-auto p-8 bg-white rounded-xl shadow-md border border-gray-200 mt-10">
+    <div className="flex justify-between items-center mb-8">
+      <Link to="/dashboard" className="text-sm text-blue-600 hover:underline">
+        ← Back to Dashboard
+      </Link>
+      {/* <button onClick={() => logoutUser(navigate)} className="text-sm text-red-500 hover:underline">Logout</button> */}
+    </div>
+
+    <h2 className="text-3xl font-bold text-gray-800 text-center mb-10">
+    Select and Upload Necessary Files
+    </h2>
+
+    <div className="grid gap-6">
+
+  {/* NEP File Upload */}
+  <div className="border-2 border-dashed border-gray-300 rounded-xl p-4 bg-gray-50 hover:bg-gray-100 transition-colors duration-200">
+    <label className="block text-sm font-medium text-gray-700 mb-2">Student-Course File — NEP (Required):</label>
+    <div className="flex items-center justify-between">
+      <label className="cursor-pointer inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 transition">
+        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0L8 8m4-4l4 4" />
+        </svg>
+        Choose File
+        <input type="file" ref={studentRef1} onChange={(e) => handleFileChange(e, setStudentFile1)} className="hidden" />
+      </label>
+      {studentFile1 && (
+        <div className="ml-4 flex items-center space-x-2">
+          <span className="text-sm text-gray-600 truncate max-w-xs">{studentFile1.name}</span>
+          <button onClick={() => { setStudentFile1(null); studentRef1.current.value = null; }} className="text-red-500 text-xs hover:underline">Remove</button>
+        </div>
+      )}
+    </div>
+  </div>
+
+  {/* CBCS File Upload */}
+  <div className="border-2 border-dashed border-gray-300 rounded-xl p-4 bg-gray-50 hover:bg-gray-100 transition-colors duration-200">
+    <label className="block text-sm font-medium text-gray-700 mb-1">Student-Course File — CBCS (Optional):</label>
+    <p className="text-xs text-gray-500 mb-3">Upload only if you have CBCS student data.</p>
+    <div className="flex items-center justify-between">
+      <label className="cursor-pointer inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 transition">
+        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0L8 8m4-4l4 4" />
+        </svg>
+        Choose File
+        <input type="file" ref={studentRef2} onChange={(e) => handleFileChange(e, setStudentFile2)} className="hidden" />
+      </label>
+      {studentFile2 && (
+        <div className="ml-4 flex items-center space-x-2">
+          <span className="text-sm text-gray-600 truncate max-w-xs">{studentFile2.name}</span>
+          <button onClick={() => { setStudentFile2(null); studentRef2.current.value = null; }} className="text-red-500 text-xs hover:underline">Remove</button>
+        </div>
+      )}
+    </div>
+  </div>
+
+  {/* Common File Upload */}
+  <div className="border-2 border-dashed border-gray-300 rounded-xl p-4 bg-gray-50 hover:bg-gray-100 transition-colors duration-200">
+    <label className="block text-sm font-medium text-gray-700 mb-2">Common Slot Courses File (Required):</label>
+    <div className="flex items-center justify-between">
+      <label className="cursor-pointer inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 transition">
+        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0L8 8m4-4l4 4" />
+        </svg>
+        Choose File
+        <input type="file" ref={commonRef} onChange={(e) => handleFileChange(e, setCommonFile)} className="hidden" />
+      </label>
+      {commonFile && (
+        <div className="ml-4 flex items-center space-x-2">
+          <span className="text-sm text-gray-600 truncate max-w-xs">{commonFile.name}</span>
+          <button onClick={() => { setCommonFile(null); commonRef.current.value = null; }} className="text-red-500 text-xs hover:underline">Remove</button>
+        </div>
+      )}
+    </div>
+  </div>
+
+  {/* Lecture Hall File Upload */}
+  <div className="border-2 border-dashed border-gray-300 rounded-xl p-4 bg-gray-50 hover:bg-gray-100 transition-colors duration-200">
+    <label className="block text-sm font-medium text-gray-700 mb-2">Lecture Hall File (Required):</label>
+    <div className="flex items-center justify-between">
+      <label className="cursor-pointer inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 transition">
+        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0L8 8m4-4l4 4" />
+        </svg>
+        Choose File
+        <input type="file" ref={hallRef} onChange={(e) => handleFileChange(e, setHallFile)} className="hidden" />
+      </label>
+      {hallFile && (
+        <div className="ml-4 flex items-center space-x-2">
+          <span className="text-sm text-gray-600 truncate max-w-xs">{hallFile.name}</span>
+          <button onClick={() => { setHallFile(null); hallRef.current.value = null; }} className="text-red-500 text-xs hover:underline">Remove</button>
+        </div>
+      )}
+    </div>
+  </div>
+
+
+      {/* Upload Button */}
+      <div className="text-center mt-6">
+        <Button
+          onClick={handleFileUpload}
+          disabled={uploading}
+          variant="contained"
+          color="primary"
+          className="w-full sm:w-auto"
+        >
+          {uploading ? "Uploading..." : "Upload Files"}
+        </Button>
+      </div>
+    </div>
+
+    {/* After Upload Success */}
+    {dataProcessed && (
+      <div className="mt-10 border-t pt-8 space-y-6">
+        <h3 className="text-xl font-semibold text-green-600">Data processed successfully!</h3>
+
+        <div className="flex items-center space-x-4">
+          <label className="block">Max Duration (days):</label>
+          <input type="number" value={maxDays} onChange={(e) => setMaxDays(e.target.value)} className="border rounded px-2 py-1 w-20" />
+        </div>
+
+        <div className="flex items-center space-x-4">
+          <label className="block">Max Slots per Day:</label>
+          <input type="number" value={maxSlots} onChange={(e) => setMaxSlots(e.target.value)} className="border rounded px-2 py-1 w-20" />
+        </div>
+
+        <Button onClick={handleMakeSchedule} disabled={scheduling} variant="contained" color="secondary">
+          {scheduling ? "Creating Schedule..." : "Generate Exam Schedule"}
+        </Button>
+      </div>
+    )}
+
+    {/* Download Section */}
+    {scheduleReady && (
+      <div className="mt-10 border-t pt-8 text-center space-y-6">
+        <h3 className="text-xl font-semibold text-green-600">Schedule is ready!</h3>
+        <div className="space-x-4">
+        {/*<Button variant="outlined" onClick={() => handleDownloadSchedule("csv", "schedule")}>Download CSV</Button>*/}
+        {/*<Button variant="outlined" onClick={() => handleDownloadSchedule("pdf", "schedule")}>Download PDF</Button>*/}
+          <button
+            onClick={() => handleDownloadSchedule("csv", "schedule")}
+            className="px-5 py-2 rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-600 hover:text-white hover:shadow-md transition duration-200 ease-in-out"
+>
+            Download CSV
+          </button>
+
+          <button
+            onClick={() => handleDownloadSchedule("pdf", "schedule")}
+            className="px-5 py-2 rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-600 hover:text-white hover:shadow-md transition duration-200 ease-in-out"
+>
+            Download PDF
+          </button>
+        </div>
+
+        <h3 className="text-xl font-semibold text-green-600 mt-8">Venue allocation is ready!</h3>
+        <div className="space-x-4">
+          {/*<Button variant="outlined" onClick={() => handleDownloadSchedule("csv", "hall_accommodation")}>Download CSV</Button>*/}
+          {/*<Button variant="outlined" onClick={() => handleDownloadSchedule("pdf", "hall_accommodation")}>Download PDF</Button>*/}
+          <button
+            onClick={() => handleDownloadSchedule("csv", "venue_allocation")}
+            className="px-5 py-2 rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-600 hover:text-white hover:shadow-md transition duration-200 ease-in-out"
+>
+            Download CSV
+          </button>
+
+          <button
+            onClick={() => handleDownloadSchedule("pdf", "venue_allocation")}
+            className="px-5 py-2 rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-600 hover:text-white hover:shadow-md transition duration-200 ease-in-out"
+>
+            Download PDF
+          </button>
         </div>
       </div>
     )}

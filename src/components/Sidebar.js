@@ -87,7 +87,7 @@ const Sidebar = () => {
             className={`block py-2 px-4 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200 
               ${location.pathname === "/upload" ? "bg-gray-700 text-white" : ""}`}
           >
-            Upload Files
+            Generate Exam Timetable & Hall Allocation
           </Link>
         </li>
         <li>
@@ -105,7 +105,7 @@ const Sidebar = () => {
             className={`block py-2 px-4 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200 
               ${location.pathname === "/hall" ? "bg-gray-700 text-white" : ""}`}
           >
-            View Hall Allocation
+            View Venue Allocation
           </Link>
         </li>
       </ul>

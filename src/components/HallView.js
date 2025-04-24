@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBuilding } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 
 const HallView = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const token = localStorage.getItem('access_token');
+  const [downloadingPdf, setDownloadingPdf] = useState(false);
+  const [downloadingCsv, setDownloadingCsv] = useState(false);
 
   const fetchPDF = async () => {
     if (!token) {
@@ -55,7 +60,45 @@ const HallView = () => {
     }
   };
 
-  return (
+  const handleDownloadSchedule = async (fileType, fileName) => {
+    if (fileType === "pdf") {
+      setDownloadingPdf(true);
+    } else if (fileType === "csv") {
+      setDownloadingCsv(true);
+    }
+    try {
+      const response = await axios.get(`http://127.0.0.1:5000/api/schedule/download/${fileType}/${fileName}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+        responseType: "blob"
+      });
+  
+      const link = document.createElement("a");
+      const fileURL = URL.createObjectURL(response.data);
+      link.href = fileURL;
+      link.download = `${fileName}.${fileType === "csv" ? "csv" : "pdf"}`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      if (fileType === "pdf") {
+        setDownloadingPdf(false);
+      } else if (fileType === "csv"){
+        setDownloadingCsv(false);
+      }
+    } catch (error) {
+      console.error("Download Error:", error);
+      alert("Error downloading schedule.");
+      if (fileType === "pdf") {
+        setDownloadingPdf(false);
+      } else if (fileType === "csv"){
+        setDownloadingCsv(false);
+      }
+    }
+  };
+
+  /*return (
     <div className="max-w-xl mx-auto mt-12 p-6 bg-white rounded-xl shadow-md text-center">
       <h2 className="text-2xl font-bold text-gray-800 mb-6">Hall Allocation</h2>
 
@@ -79,6 +122,83 @@ const HallView = () => {
       )}
     </div>
   );
+};
+
+export default HallView;
+
+return (
+  <div className="max-w-3xl mx-auto mt-10 p-8 bg-white rounded-2xl shadow-lg">
+    <h2 className="text-3xl font-bold mb-6 text-gray-800"><FontAwesomeIcon icon={faBuilding} className="mr-3" /> Hall Allocation</h2>
+
+    <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0 mb-6">
+      <button
+        onClick={fetchPDF}
+        className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition"
+        disabled={loading}
+      >
+        {loading ? "Opening PDF..." : "View as PDF"}
+      </button>
+
+      <button
+        onClick={() => handleDownloadSchedule("pdf", "hall_accommodation")}
+        className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition"
+      >
+        Download PDF
+      </button>
+
+      <button
+        onClick={() => handleDownloadSchedule("csv", "hall_accommodation")}
+        className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded-lg font-medium transition"
+      >
+        Download CSV
+      </button>
+    </div>
+
+    <p className="text-gray-500 text-sm">
+      Click "View as PDF" to open the exam hall allocation in a new tab. If it doesn’t open, please check popup settings.
+    </p>
+  </div>
+);
+};
+
+export default HallView;*/
+
+return (
+  <div className="max-w-2xl mx-auto mt-12 p-6 bg-white rounded-lg shadow-md border border-gray-200">
+    <h2 className="text-xl font-semibold text-gray-800 flex items-center mb-6">
+      <FontAwesomeIcon icon={faBuilding} className="mr-3 text-indigo-600" />
+        Venue allocation
+    </h2>
+
+    <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0 mb-6">
+      <button
+        onClick={fetchPDF}
+        className="bg-indigo-500 hover:bg-indigo-600 text-white px-5 py-2 rounded-lg font-medium transition duration-200"
+        disabled={loading}
+      >
+        {loading ? "Opening PDF..." : "View as PDF"}
+      </button>
+
+      <button
+        onClick={() => handleDownloadSchedule("pdf", "venue_allocation")}
+        className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-5 py-2 rounded-lg font-medium transition duration-200"
+      >
+        Download PDF
+      </button>
+
+      <button
+        onClick={() => handleDownloadSchedule("csv", "venue_allocation")}
+        className="bg-teal-500 hover:bg-teal-600 text-white px-5 py-2 rounded-lg font-medium transition duration-200"
+      >
+        Download CSV
+      </button>
+    </div>
+
+    <p className="text-gray-600 text-sm text-center">
+      Click "View as PDF" to open the venue allocation in a new tab. If it doesn’t open, please check popup settings.
+    </p>
+  </div>
+);
 };
 
 export default HallView;
