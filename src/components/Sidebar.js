@@ -108,6 +108,15 @@ const Sidebar = () => {
             View Venue Allocation
           </Link>
         </li>
+        <li>
+          <Link 
+            to="/seatingplan" 
+            className={`block py-2 px-4 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200 
+              ${location.pathname === "/seatingplan" ? "bg-gray-700 text-white" : ""}`}
+          >
+            View Seating Plan
+          </Link>
+        </li>
       </ul>
     </aside>
   );

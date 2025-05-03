@@ -37,8 +37,8 @@ const UploadFiles = () => {
     setMaxSlots(1);
     
      
-    if (!studentFile1 || !hallFile || !commonFile) {
-      alert("Please select NEP, Common, and Lecture Hall files.");
+    if (!studentFile1 || !hallFile) {
+      alert("Please select NEP and Lecture Hall files.");
       return;
     }
 
@@ -59,7 +59,8 @@ const UploadFiles = () => {
 
       if (response.status === 200) {
         setDataProcessed(true);
-        alert(`Data processed successfully! ${response.data.courses_count} courses processed.`);
+        //alert(`Data processed successfully! ${response.data.courses_count} courses processed.`);
+        alert(`Data processed successfully!`);
       } else {
         console.error(response.data.message || "Error processing data.");
         alert('Error processing data!')
@@ -102,7 +103,7 @@ const UploadFiles = () => {
       }
     } catch (error) {
       console.error("Schedule Error:", error);
-      toast.error("Error generating schedule.");
+      alert("Error generating schedule ! Try Increasing Number of Days or Slots.");
     } finally {
       setScheduling(false);
     }
@@ -305,7 +306,7 @@ return (
 
   {/* NEP File Upload */}
   <div className="border-2 border-dashed border-gray-300 rounded-xl p-4 bg-gray-50 hover:bg-gray-100 transition-colors duration-200">
-    <label className="block text-sm font-medium text-gray-700 mb-2">Student-Course File — NEP (Required):</label>
+    <label className="block text-sm font-medium text-gray-700 mb-2">Student-Course File — NEP <span className="text-red-500 ml-1">*</span></label>
     <div className="flex items-center justify-between">
       <label className="cursor-pointer inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 transition">
         <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -325,7 +326,7 @@ return (
 
   {/* CBCS File Upload */}
   <div className="border-2 border-dashed border-gray-300 rounded-xl p-4 bg-gray-50 hover:bg-gray-100 transition-colors duration-200">
-    <label className="block text-sm font-medium text-gray-700 mb-1">Student-Course File — CBCS (Optional):</label>
+    <label className="block text-sm font-medium text-gray-700 mb-1">Student-Course File — CBCS</label>
     <p className="text-xs text-gray-500 mb-3">Upload only if you have CBCS student data.</p>
     <div className="flex items-center justify-between">
       <label className="cursor-pointer inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 transition">
@@ -346,7 +347,8 @@ return (
 
   {/* Common File Upload */}
   <div className="border-2 border-dashed border-gray-300 rounded-xl p-4 bg-gray-50 hover:bg-gray-100 transition-colors duration-200">
-    <label className="block text-sm font-medium text-gray-700 mb-2">Common Slot Courses File (Required):</label>
+    <label className="block text-sm font-medium text-gray-700 mb-2">Common Slot Courses File</label>
+    <p className="text-xs text-gray-500 mb-3">Upload only if certain courses must be scheduled in the same time slot.</p>
     <div className="flex items-center justify-between">
       <label className="cursor-pointer inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 transition">
         <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -366,7 +368,7 @@ return (
 
   {/* Lecture Hall File Upload */}
   <div className="border-2 border-dashed border-gray-300 rounded-xl p-4 bg-gray-50 hover:bg-gray-100 transition-colors duration-200">
-    <label className="block text-sm font-medium text-gray-700 mb-2">Lecture Hall File (Required):</label>
+    <label className="block text-sm font-medium text-gray-700 mb-2">Lecture Hall File <span className="text-red-500 ml-1">*</span></label>
     <div className="flex items-center justify-between">
       <label className="cursor-pointer inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 transition">
         <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -455,6 +457,25 @@ return (
 
           <button
             onClick={() => handleDownloadSchedule("pdf", "venue_allocation")}
+            className="px-5 py-2 rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-600 hover:text-white hover:shadow-md transition duration-200 ease-in-out"
+>
+            Download PDF
+          </button>
+        </div>
+
+        <h3 className="text-xl font-semibold text-green-600 mt-8">Seating plan is ready!</h3>
+        <div className="space-x-4">
+          {/*<Button variant="outlined" onClick={() => handleDownloadSchedule("csv", "hall_accommodation")}>Download CSV</Button>*/}
+          {/*<Button variant="outlined" onClick={() => handleDownloadSchedule("pdf", "hall_accommodation")}>Download PDF</Button>*/}
+          <button
+            onClick={() => handleDownloadSchedule("csv", "seating_plan")}
+            className="px-5 py-2 rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-600 hover:text-white hover:shadow-md transition duration-200 ease-in-out"
+>
+            Download CSV
+          </button>
+
+          <button
+            onClick={() => handleDownloadSchedule("pdf", "seating_plan")}
             className="px-5 py-2 rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-600 hover:text-white hover:shadow-md transition duration-200 ease-in-out"
 >
             Download PDF

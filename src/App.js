@@ -13,6 +13,7 @@ import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import Footer from "./components/Footer";
 import HallView from "./components/HallView";
+import SeatingPlanView from "./components/SeatingPlanView"
 import logoutUser from "./components/logout";
 import { useNavigate } from "react-router-dom";
 
@@ -114,6 +115,15 @@ export default function App() {
                 element={
                   <ProtectedRoute isAuthenticated={isAuthenticated}>
                     <HallView />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/seatingplan"
+                element={
+                  <ProtectedRoute isAuthenticated={isAuthenticated}>
+                    <SeatingPlanView />
                   </ProtectedRoute>
                 }
               />
